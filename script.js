@@ -44,16 +44,50 @@ function playRound(playerSelection, computerSelection) {
     }
 
     if (tieFlag) {
-        return 'You tie!';
+        alert('You tie!');
+        return 'tie';
     } else if (winFlag) {
-        return `You win! Your ${playerChoice} beats the opponent's ${cpuChoice}!`
+        alert(`You win! Your ${playerChoice} beats the opponent's ${cpuChoice}!`);
+        return 'win';
     } else {
-        return `You lose! The opponent's ${cpuChoice} beats your ${playerChoice}!`
+        alert(`You lose! The opponent's ${cpuChoice} beats your ${playerChoice}!`);
+        return 'lose';
+    }
+}
+
+
+function game() {
+    let results = [];
+    for (let i = 0; i < 5; i++) {
+        let computerSelection = computerPlay();
+        let playerSelection = prompt('Pick rock/paper/scissors: ');
+        let result = playRound(playerSelection, computerSelection);
+        // if a tie occurs, keep playing until a win or loss
+        while (result === 'tie') {
+            computerSelection = computerPlay();
+            playerSelection = prompt('Pick rock/paper/scissors: ');
+            result = playRound(playerSelection, computerSelection);
+        }
+        results.push(result);
+    }
+    
+    let nWins = 0;
+    let nLosses = 0;
+    results.forEach(elem => {
+        elem == 'win' ? nWins++ : nLosses++;
+    })
+
+    if (nWins > nLosses) {
+        alert(`You won ${nWins} out of 5 games! You win!`)
+    } else {
+        alert(`You won ${nWins} out of 5 games! You lose!`)
     }
 
 
 }
 
+
 const playerSelection = 'rock';
-const computerSelection = computerPlay();
-console.log(playRound(playerSelection, computerSelection));
+
+console.log(game(playerSelection));
+
